@@ -399,7 +399,7 @@ class App(ttk.Frame):
             entries[App.PRICE      ].insert(0, App.temp_product.price)
             entries[App.PRICE      ].config(foreground="#232323")
             entries[App.BENEFITS   ].delete(0, "end")
-            entries[App.BENEFITS   ].insert(0, ','.join(App.temp_product.benefits))
+            entries[App.BENEFITS   ].insert(0, ','.join(App.db[code].benefits))
             entries[App.BENEFITS   ].config(foreground="#232323")
             entries[App.DURATION   ].delete(0, "end")
             entries[App.DURATION   ].insert(0, App.temp_product.duration)
