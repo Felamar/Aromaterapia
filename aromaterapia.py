@@ -51,7 +51,7 @@ class App(ttk.Frame):
     else:
         df_products      = pd.read_csv("products.csv")
         for index, row in df_products.iterrows():
-            product = producto()
+            product             = producto()
             product.code        = row["code"]
             product.description = row["description"]
             product.price       = row["price"]
@@ -59,6 +59,7 @@ class App(ttk.Frame):
             product.duration    = row["duration"]
             product.img         = row["img"]
             db[product.code]    = product
+            attributes_db[product.code] = [product.description, product.price, product.benefits, product.duration, product.img]
 
     # ATTRIBUTES INITIALIZATION
     def __init__(self, master):
@@ -289,6 +290,9 @@ class App(ttk.Frame):
                     error_count += 1
                     entries[P].configure(
                         bootstyle = DANGER)
+                else:
+                    entries[P].configure(
+                        bootstyle = PRIMARY)
                 continue
             elif not re.match(App.PATTERNS[P][0], entries[P].get()) or entries[P].get() == "" or entries[P].get() == App.PARAMETERS[P][App.P_EXA]:
                 error_index = P
@@ -325,7 +329,7 @@ class App(ttk.Frame):
             self.register_Product(App.temp_product, App.db)
 
     def modify_Product(self, product, db):
-        if not messagebox.askyesno("Alert", "¿Desea modificar el producto {}?".format(product.code)):
+        if not messagebox.askyesno("Alert", "¿Esta seguro de modificar el producto {}?".format(product.code)):
             return
         db[product.code] = product
         App.attributes_db[product.code] = [
@@ -356,7 +360,7 @@ class App(ttk.Frame):
             response =messagebox.askyesnocancel("Alert", "El producto {} ya existe, ¿Desea modificarlo?".format(product.code))
             if response:
                 self.modify_Product(product, db)
-            return
+            
         else:
             db[product.code] = product
             App.attributes_db[product.code] = [
@@ -370,8 +374,8 @@ class App(ttk.Frame):
             df = pd.DataFrame.from_dict(App.attributes_db, orient='index', columns=App.db_keys)
             df['benefits'] = df['benefits'].apply(lambda x: ','.join(x))
             df.to_csv("products.csv", index_label="code")
+            messagebox.showinfo("Alert", "Producto {} registrado con éxito".format(product.code))
 
-        messagebox.showinfo("Alert", "Producto {} registrado con éxito".format(product.code))
 
         for P in App.PARAMETERS:
             if P == App.IMG:
