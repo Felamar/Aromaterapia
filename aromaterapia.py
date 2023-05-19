@@ -6,7 +6,7 @@ from ttkbootstrap.constants import *
 from tkinter import filedialog
 from tkinter import messagebox
 
-class producto:
+class Producto():
     def __init__(self):
 
         self.code           = int   ()
@@ -21,7 +21,7 @@ class App(ttk.Frame):
     # GLOBAL VARIABLES
     db               = dict()
     attributes_db    =dict()
-    temp_product     = producto()
+    temp_product     = Producto()
     temp_product.img = None
 
     # CONSTANTS
@@ -39,7 +39,7 @@ class App(ttk.Frame):
     PATTERNS = {
         CODE        : [r"^\d{6}$",                           6], 
         DESCRIPTION : [r"^[a-zA-Z\s]+$",                      20], 
-        PRICE       : [r"^\d{1,4}(\.\d{1,2})?$",             7], 
+        PRICE       : [r"^\d{1,5}(\.\d{1,2})?$",             7], 
         BENEFITS    : [r"^[a-zA-Z0-9 ]+(,[a-zA-Z0-9 ]+)*$", 20], 
         DURATION    : [r"^\d{1,3}$",                         6] 
     }
@@ -51,7 +51,7 @@ class App(ttk.Frame):
     else:
         df_products      = pd.read_csv("products.csv")
         for index, row in df_products.iterrows():
-            product             = producto()
+            product             = Producto()
             product.code        = row["code"]
             product.description = row["description"]
             product.price       = row["price"]
@@ -175,12 +175,12 @@ class App(ttk.Frame):
             
             self.register_entries[P] = entry
 
-            register_btn = ttk.Button(register_frame, 
-                text="Registrar", 
-                command=lambda: self.get_values(self.register_entries, "register")
-            )
-            register_btn.configure(style="success.TButton")
-            register_btn.grid(row=2, column=0, padx=5, pady=(15,0), sticky="w", columnspan=2)
+        register_btn = ttk.Button(register_frame, 
+            text="Registrar", 
+            command=lambda: self.get_values(self.register_entries, "register")
+        )
+        register_btn.configure(style="success.TButton")
+        register_btn.grid(row=2, column=0, padx=5, pady=(15,0), sticky="w", columnspan=2)
 
     def modify_fields(self):
         modify_frame = ttk.Frame(self.frames["modify"])
