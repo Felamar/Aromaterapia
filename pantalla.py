@@ -339,7 +339,6 @@ class Pantalla(ttk.Frame):
                 continue
             entries[key].configure(bootstyle = DANGER)
         valid_keys = [value for value in self.parameters_keys + ["IMG"] if value not in keys]
-        print("valid keys {}".format(valid_keys))
         self.Valid_Data(entries, valid_keys, from_f)
     # end invalid_data
 

@@ -13,7 +13,6 @@ PATTERNS = [
     r"^\d{1,3}$"                         # DURATION
 ]
 
-
 DEFAULT_VALUES = [
     "000000",                        # CODE
     "Descripción...",                # DESCRIPTION
@@ -90,6 +89,8 @@ def Register_Product(product : Product):
     df.to_csv('products.csv', index=False)
 
 def Modify_Product(product : Product):
+    if not isinstance(product, Product):
+        return
     df = pd.read_csv("products.csv", dtype={"CODE": str})
     df.loc[df["CODE"] == product.CODE, ["DESCRIPTION", "PRICE", "BENEFITS", "DURATION", "IMG"]] = [product.DESCRIPTION, product.PRICE, product.BENEFITS, product.DURATION, product.IMG]
     df.to_csv('products.csv', index=False)
